@@ -1,0 +1,11 @@
+import {writeFile,mkdir} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+const response=await fetch('https://github.com/sitingwang134-cmd/pearl-coast-webgl/releases/download/v0.1.0/pearl-coast-webgl-v0.1.0.tar.gz');
+if(!response.ok)throw new Error('Release download failed: '+response.status);
+const bytes=Buffer.from(await response.arrayBuffer());
+if(createHash('sha256').update(bytes).digest('hex')!=='c61fc59bf740425369f68b8d32fd97cae06557e75f9b613e8b05fc12172a4f80')throw new Error('Release checksum mismatch');
+await writeFile('/tmp/pearl-game.tar.gz',bytes);
+await mkdir('public',{recursive:true});
+execFileSync('tar',['-xzf','/tmp/pearl-game.tar.gz','-C','public']);
+console.log('Verified complete WebGL runtime extracted');
