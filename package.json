@@ -1,0 +1,12 @@
+{
+  "name": "pearl-coast-webgl",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node server.mjs"
+  }
+}
